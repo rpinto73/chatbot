@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include <ctime>
+#include <memory>
 
 #include "chatlogic.h"
 #include "graphnode.h"
@@ -21,6 +22,7 @@ ChatBot::ChatBot()
 ChatBot::ChatBot(std::string filename)
 {
     std::cout << "ChatBot Constructor" << std::endl;
+
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -28,6 +30,7 @@ ChatBot::ChatBot(std::string filename)
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
+
 }
 
 ChatBot::~ChatBot()
@@ -44,6 +47,57 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& source){ //copy constructor
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& source){ //copy assignment operator
+    
+    if (this== &source){
+        return *this;
+    }
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    std::cout << "ChatBot Copy Assignment Operator" <<  std::endl;
+    return *this;
+
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& source){  //move assigment operator
+
+    if (this==&source)
+            return *this;
+
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    source._image = NULL;
+    source._chatLogic = NULL;
+    source._rootNode = NULL;
+
+    std::cout << "ChatBot Move Assignment Operator" <<  std::endl;
+
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot& source){ //move constructor
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    source._image = NULL;
+    source._chatLogic = NULL;
+    source._rootNode = NULL;
+
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+}
 
 ////
 //// EOF STUDENT CODE
